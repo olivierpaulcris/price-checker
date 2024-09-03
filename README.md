@@ -1,2 +1,2 @@
 # price-checker
-Price checker using React, NodeJS &amp; MySQL.
+Price checker using React.
