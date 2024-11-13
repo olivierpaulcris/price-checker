@@ -4,23 +4,24 @@ import './App.css';
 
 function App() {
 
+  const backendUrl = 'http://localhost/price-checker/backend/'
   const [product, setProduct] = useState({
-    id: '',
+    id: 0,
     name: '',
     price: '',
     code: '',
-    image: 'http://localhost/images/no-image.jpg'
+    image: `${backendUrl}/images/no-image.jpg`
   });
 
   const getProduct = async (e) => {
     e.preventDefault();
 
     try {
-      console.log('http://localhost/backend/getProduct.php?code=' + product.code + '&name=' + product.name)
-      const response = await fetch('http://localhost/backend/getProduct.php?code=' + product.code + '&name=' + product.name);
+      const response = await fetch(`${backendUrl}/getProduct.php?code=${product.code}&name=${product.name}`);
       const data = await response.json();
 
       if (data.length) {
+        data[0].image = `${backendUrl}/images/${data[0].image}`
         setProduct(data[0])
       }
     } catch (err) {
@@ -32,7 +33,7 @@ function App() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost/backend/updateProduct.php', product, {
+      const response = await axios.post(`${backendUrl}/updateProduct.php`, product, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -54,21 +55,11 @@ function App() {
       name: '',
       price: '',
       code: '',
-      image: 'http://localhost/images/no-image.jpg'
+      image: `${backendUrl}/images/no-image.jpg`
     });
   };
 
-  const handleChangeCode = (e) => {
-    const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
-  };
-
-  const handleChangeName = (e) => {
-    const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
-  };
-
-  const handleChangePrice = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
@@ -82,15 +73,15 @@ function App() {
         <form className="w-full mx-auto pt-2">
           <div className="m-5">
             <label htmlFor="large-input" className="block mb-3 text-4xl font-medium text-gray-900">Código de barras</label>
-            <input name='code' type="text" placeholder="" value={product.code} onChange={handleChangeCode} id="large-input" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-4xl focus:ring-blue-500 focus:border-blue-500" autoFocus required />
+            <input name='code' type="text" placeholder="" value={product.code} onChange={handleChange} id="large-input" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-4xl focus:ring-blue-500 focus:border-blue-500" autoFocus required />
           </div>
           <div className="m-5">
             <label htmlFor="large-input" className="block mb-3 text-4xl font-medium text-gray-900">Nombre del producto</label>
-            <input name='name' type="text" placeholder="" value={product.name} onChange={handleChangeName} id="large-input" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-4xl focus:ring-blue-500 focus:border-blue-500" required />
+            <input name='name' type="text" placeholder="" value={product.name} onChange={handleChange} id="large-input" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-4xl focus:ring-blue-500 focus:border-blue-500" required />
           </div>
           <div className="m-5">
             <label htmlFor="large-input" className="block mb-3 text-4xl font-medium text-gray-900">Precio</label>
-            <input name='price' type="text" placeholder="" value={product.price} onChange={handleChangePrice} id="large-input" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-4xl focus:ring-blue-500 focus:border-blue-500" required />
+            <input name='price' type="text" placeholder="" value={product.price} onChange={handleChange} id="large-input" className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-4xl focus:ring-blue-500 focus:border-blue-500" required />
           </div>
           <div className="m-5">
             <button type="button" onClick={getProduct} className="w-full px-6 py-3.5 text-4xl font-medium text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center">
