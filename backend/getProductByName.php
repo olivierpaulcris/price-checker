@@ -5,16 +5,8 @@ header('Access-Control-Allow-Methods: GET');
 include('./connection.php');
 
 try {
-    $code = isset($_REQUEST['code']) ? $_REQUEST['code'] : '';
     $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
-    $sql = "SELECT id, code, name, image, price, date FROM products WHERE code = '".$code."' ";
-
-    if($name != '') {
-        $sql = $sql . "OR name LIKE '%".$name."%' ";
-    }
-    
-    $sql = $sql . "LIMIT 1;";
-
+    $sql = "SELECT id, code, name, image, price, date FROM products WHERE name LIKE '%".$name."%' LIMIT 1;";
     $stmt = $dbcon->prepare($sql);
     $stmt->execute();
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
