@@ -12,6 +12,7 @@ try {
             $name = $data['name'];
             $price = $data['price'];
             $code = $data['code'];
+            $image = $data['code'].".jpg";
 
             $checkStmt = $dbcon->prepare("SELECT id FROM products WHERE code = :code");
             $checkStmt->bindParam(':code', $code);
@@ -46,10 +47,11 @@ try {
                 }
             } else {
                 // Si no existe, insertamos
-                $insertStmt = $dbcon->prepare("INSERT INTO products (name, price, code) VALUES (:name, :price, :code)");
+                $insertStmt = $dbcon->prepare("INSERT INTO products (name, price, code, image) VALUES (:name, :price, :code, :image)");
                 $insertStmt->bindParam(':name', $name);
                 $insertStmt->bindParam(':price', $price);
                 $insertStmt->bindParam(':code', $code);
+                $insertStmt->bindParam(':image', $image);
 
                 if ($insertStmt->execute()) {
                     $insertedId = $dbcon->lastInsertId();

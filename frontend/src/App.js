@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
-  const backendUrl = 'http://localhost/price-checker/backend/';
+  const backendUrl = 'http://localhost/backend';
   const [product, setProduct] = useState({
     id: 0,
     name: '',
@@ -40,7 +40,7 @@ function App() {
         data[0].image = !data[0].image.length ? `${backendUrl}/images/no-image.jpg` : `${backendUrl}/images/${data[0].image}`;
         setProduct(data[0]);
       } else {
-        alert('Producto no encontrado.');
+        // alert('Producto no encontrado.');
       }
     } catch (err) {
       console.error('Error al buscar producto:', err.message);
@@ -57,6 +57,7 @@ function App() {
 
       if (response.data.success) {
         alert('✔ Producto guardado correctamente.');
+        clearProduct();
       } else {
         alert('✖ Error al guardar el producto.');
       }
@@ -79,9 +80,9 @@ function App() {
   };
 
   const handleCodeKeyDown = (e) => {
-    e.preventDefault(); // Evita que se agregue una nueva línea en el campo
-    setProduct((prev) => ({ ...prev, code: e.target.value })); // Establece el código final
-    setSearchCode(e.target.value); // Dispara la búsqueda
+    e.preventDefault();
+    setProduct((prev) => ({ ...prev, code: e.target.value }));
+    setSearchCode(e.target.value);
   };
 
   const clearProduct = () => {
@@ -187,7 +188,7 @@ function App() {
             </div>
             <div className="m-5">
               <p className="text-center my-5">
-                Paul Sistemas - Checador de Precios v1.0.0
+                Paul Sistemas - Checador de Precios v1.0.1
               </p>
             </div>
           </form>
